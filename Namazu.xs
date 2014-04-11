@@ -331,6 +331,20 @@ nmz_setmaxhit(max)
 	CODE:
 		nmz_set_maxhit(max);
 
+void
+nmz_setloggingmode(mode)
+	int mode
+
+	CODE:
+		nmz_set_loggingmode(mode);
+
+void
+nmz_setregexsearchmode(mode)
+	int mode
+
+	CODE:
+		nmz_set_regex_searchmode(mode);
+
 int
 nmz_getstatus()
 	CODE:

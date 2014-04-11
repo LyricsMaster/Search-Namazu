@@ -158,6 +158,38 @@ Specify you want to get fields as a refrence of array. In the case,
 the result is returned as a reference of array, contains
 Search::Namazu::ResultXS objects.
 
+=head3 logging
+
+Specify the logging mode. The following values can be used:
+
+=over 4
+
+=item B<NMZ_LOGGING_ON>
+
+Enable logging (this is the default value).
+
+=item B<NMZ_LOGGING_OFF>
+
+Disable logging.
+
+=back
+
+=head3 regex
+
+Specify whether regular-expression query is allowed. The following values can be used:
+
+=over 4
+
+=item B<NMZ_REGEX_ON>
+
+Allow regex query (this is the default value).
+
+=item B<NMZ_REGEX_OFF>
+
+Disallow regex query.
+
+=back
+
 =head2 Search::Namazu::Result
 
 Search::Namazu::Result object is for keeping result information.
@@ -253,6 +285,7 @@ require DynaLoader;
 
 @EXPORT = qw(NMZ_SORTBYDATE NMZ_SORTBYSCORE NMZ_SORTBYFIELD
 NMZ_ASCENDSORT NMZ_DESCENDSORT
+NMZ_LOGGING_ON NMZ_LOGGING_OFF NMZ_REGEX_ON NMZ_REGEX_OFF
 NMZ_NOT_SPECIFIED_INDEX NMZ_ERR_INDEX NMZ_ERR_EMPTY_QUERY
 NMZ_ERR_RESULT_EXCEEDED);
 # %EXPORT_TAGS = (all => [qw()]);
@@ -268,6 +301,10 @@ sub NMZ_SORTBYSCORE { return 2; }
 sub NMZ_SORTBYFIELD { return 3; }
 sub NMZ_ASCENDSORT { return 16; }
 sub NMZ_DESCENDSORT { return 32; }
+sub NMZ_LOGGING_ON { return 1; }
+sub NMZ_LOGGING_OFF { return 0; }
+sub NMZ_REGEX_ON { return 1; }
+sub NMZ_REGEX_OFF { return 0; }
 
 sub NMZ_NOT_SPECIFIED_INDEX { return -1; }
 sub NMZ_ERR_INDEX { return -2; }
@@ -290,6 +327,8 @@ sub Search {
     my $returnas = $args{'returnas'};
     my $maxget = $args{'maxget'} || $maxhit;
     my $fields = $args{'fields'};
+    my $logging = $args{'logging'};
+    my $regex = $args{'regex'};
 
 # initialize
 
@@ -335,6 +374,18 @@ sub Search {
 	nmz_setlang($lang);
     }
     nmz_setmaxhit($maxhit);
+
+    if ((defined $logging) && ($logging == NMZ_LOGGING_OFF)) {
+       nmz_setloggingmode(0);
+    } else {
+       nmz_setloggingmode(1);
+    }
+
+    if ((defined $regex) && ($regex == NMZ_REGEX_OFF)) {
+       nmz_setregexsearchmode(0);
+    } else {
+       nmz_setregexsearchmode(1);
+    }
 
 # query and get hlist
 
