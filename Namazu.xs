@@ -325,6 +325,13 @@ nmz_setlang(lang)
 		RETVAL
 
 void
+nmz_setmaxmatch(max)
+	int max
+
+	CODE:
+		nmz_set_maxmatch(max);
+
+void
 nmz_setmaxhit(max)
 	int max
 

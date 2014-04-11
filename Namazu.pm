@@ -142,6 +142,10 @@ Specify language.
 
 Speciry maximum numbers of hits. Same as MaxHit directive in namazurc.
 
+=head3 maxmatch
+
+Speciry maximum numbers of matches. Same as MaxMatch directive in namazurc.
+
 =head3 maxget
 
 Speciry result object numbers of hits to limit too many results.
@@ -326,6 +330,7 @@ sub Search {
     my $maxhit = $args{'maxhit'} || 10000;
     my $returnas = $args{'returnas'};
     my $maxget = $args{'maxget'} || $maxhit;
+    my $maxmatch = $args{'maxmatch'} || 1000;
     my $fields = $args{'fields'};
     my $logging = $args{'logging'};
     my $regex = $args{'regex'};
@@ -374,6 +379,7 @@ sub Search {
 	nmz_setlang($lang);
     }
     nmz_setmaxhit($maxhit);
+    nmz_setmaxmatch($maxmatch);
 
     if ((defined $logging) && ($logging == NMZ_LOGGING_OFF)) {
        nmz_setloggingmode(0);
